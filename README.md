@@ -1,22 +1,33 @@
-# README para Projeto de Gestão de Contatos com Autenticação
+# README | Projeto de Gestão de Contatos com Autenticação
 
 Visão Geral
 
 Aplicação web para gerenciamento de contatos com:
+
 ✔ Autenticação segura (login/cadastro)
+
 ✔ CRUD completo de contatos
+
 ✔ Integração com Google Maps (geolocalização por endereço)
+
 ✔ Busca inteligente (nome/CPF)
+
 ✔ Validação de formulários com Zod
+
 ✔ Arquitetura modular seguindo SOLID
 
 ## Tecnologias
 
 React + TypeScript + LocalStorage (API mock)
+
 ShadCN UI (Radix + Tailwind) Zod (validação)
+
 React Hook Form Google Maps API
+
 React Router ViaCEP API
+
 Axios
+
 Vite
 
 ## Como Executar
