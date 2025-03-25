@@ -21,10 +21,6 @@ a, li, h2 {
   color: #2D2D2D;
 }
 
-li::marker, .lucide-chevron-down {
-  color: #A445ED;
-}
-
 .text-destructive {
  color: #FF5252;
 }

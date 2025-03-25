@@ -12,9 +12,6 @@ const AuthChecker: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         if (isAuthenticated && location.pathname === "/login") {
             navigate("/contatos");
         }
-        // else if (!isAuthenticated && location.pathname !== "/login") {
-        //   navigate("/login");
-        // }
     }, [isAuthenticated, location.pathname, navigate]);
 
     return <>{children}</>;
