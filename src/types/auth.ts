@@ -9,11 +9,5 @@ export const loginFormSchema = z.object({
   }),
 });
 
-export const registerFormSchema = loginFormSchema.extend({
-  confirmPassword: z.string().min(1, {
-    message: "Campo obrigatório",
-  }),
-});
-
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
-export type RegisterFormValues = z.infer<typeof registerFormSchema>;
+export type RegisterFormValues = z.infer<typeof loginFormSchema>;

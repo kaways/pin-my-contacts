@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { registerFormSchema, RegisterFormValues } from "@/types/auth";
+import { loginFormSchema, RegisterFormValues } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -12,11 +12,10 @@ interface RegisterFormProps {
 
 export const RegisterForm = ({ onSubmit, isLoading = false }: RegisterFormProps) => {
     const form = useForm<RegisterFormValues>({
-        resolver: zodResolver(registerFormSchema),
+        resolver: zodResolver(loginFormSchema),
         defaultValues: {
             email: "",
             password: "",
-            confirmPassword: "",
         },
     });
 
@@ -43,20 +42,6 @@ export const RegisterForm = ({ onSubmit, isLoading = false }: RegisterFormProps)
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Senha</FormLabel>
-                            <FormControl>
-                                <Input type="password" placeholder="******" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Confirmar Senha</FormLabel>
                             <FormControl>
                                 <Input type="password" placeholder="******" {...field} />
                             </FormControl>

@@ -14,12 +14,8 @@ interface UserInfo {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Verifica se o usuário está logado ao carregar a aplicação
     useEffect(() => {
         const currentUser = localStorage.getItem("currentUser");
-
-        console.log(currentUser)
-        console.log(localStorage.getItem("accounts"))
 
         if (currentUser) {
             setIsAuthenticated(true);
@@ -34,6 +30,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (accountExists) {
             localStorage.setItem('currentUser', JSON.stringify(user));
             setIsAuthenticated(true);
+        } else {
+            alert('Dados incorretos.');
+            return;
         }
     };
 
@@ -43,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         if (emailExists) {
             alert('Este email já está cadastrado.');
-            return; 
+            return;
         }
 
         accounts.push(user);
@@ -53,7 +52,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsAuthenticated(true);
     };
 
-    // Função para fazer logout
     const logout = () => {
         localStorage.removeItem("currentUser");
         setIsAuthenticated(false);

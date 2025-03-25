@@ -26,6 +26,9 @@ export const UserActionsDropdown = ({
         setIsDeleting(false);
         if (success) {
             setIsDeleteDialogOpen(false);
+        } else {
+            alert('Senha incorreta.');
+            return; 
         }
     };
 
