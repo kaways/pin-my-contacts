@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ReactNode } from "react";
 import { AuthContext } from './AuthContext'
-
+import { useNotification } from '@/context/NotificationProvider';
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -13,6 +13,7 @@ interface UserInfo {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const { notify } = useNotification();
 
     useEffect(() => {
         const currentUser = localStorage.getItem("currentUser");
@@ -31,7 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             localStorage.setItem('currentUser', JSON.stringify(user));
             setIsAuthenticated(true);
         } else {
-            alert('Dados incorretos.');
+            notify('error', 'Erro', 'Dados incorretos');
             return;
         }
     };
@@ -41,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const emailExists = accounts.some((account: { email: string; }) => account.email === user.email);
 
         if (emailExists) {
-            alert('Este email já está cadastrado.');
+            notify('error', 'Erro', 'Este email já está cadastrado');
             return;
         }
 

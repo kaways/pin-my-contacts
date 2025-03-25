@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { ChevronDown, LogOut, Trash2 } from 'lucide-react';
 import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { useNotification } from '@/context/NotificationProvider';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 
@@ -19,6 +20,7 @@ export const UserActionsDropdown = ({
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [password, setPassword] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
+    const { notify } = useNotification();
 
     const handleDelete = async () => {
         setIsDeleting(true);
@@ -27,7 +29,7 @@ export const UserActionsDropdown = ({
         if (success) {
             setIsDeleteDialogOpen(false);
         } else {
-            alert('Senha incorreta.');
+            notify('error', 'Erro', 'Senha incorreta');
             return; 
         }
     };

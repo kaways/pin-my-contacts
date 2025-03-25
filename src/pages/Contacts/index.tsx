@@ -32,7 +32,7 @@ export const ContactsPage = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [shouldResetForm, setShouldResetForm] = useState(false);
-    const [currentContact, setCurrentContact] = useState(null);
+    const [currentContact, setCurrentContact] = useState<Contact | null>(null);
     const [mapCenter, setMapCenter] = useState({
         lat: -25.4284,
         lng: -49.2733
@@ -75,7 +75,7 @@ export const ContactsPage = () => {
         setIsDialogOpen(true);
     };
 
-    const handleEdit = (contact: React.SetStateAction<null>) => {
+    const handleEdit = (contact: Contact) => {
         setCurrentContact(contact);
         setIsEditMode(true);
         setIsDialogOpen(true);

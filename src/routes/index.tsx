@@ -4,6 +4,7 @@ import { AuthProvider } from "@/context/AuthProvider";
 import { AuthContext } from "@/context/AuthContext";
 import Login from '@/pages/Login';
 import Contacts from '@/pages/Contacts';
+import { NotificationProvider } from '@/context/NotificationProvider';
 import AuthChecker from './AuthChecker';
 
 // Componente para proteger as rotas privadas
@@ -28,6 +29,7 @@ export default function Rotation() {
                         <Route path="*" element={<Navigate to={"/login"} />} />
                     </Routes>
                 </AuthChecker>
+                <NotificationProvider />
             </Router>
         </AuthProvider>
     );
