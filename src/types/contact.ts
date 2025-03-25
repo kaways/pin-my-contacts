@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export interface Contact {
-  id?: string;
   nome: string;
   cpf: string;
   telefone: string;
@@ -11,8 +10,8 @@ export interface Contact {
   cidade: string;
   estado: string;
   complemento?: string;
-  latitude?: string | number;
-  longitude?: string | number;
+  latitude?: string;
+  longitude?: string;
 }
 
 export const contactFormSchema = z.object({

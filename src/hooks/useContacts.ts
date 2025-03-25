@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { LocalStorageService } from '@/services/localStorageService';
-import { useNotification } from '@/context/NotificationProvider';
-import { Contact } from '../types/contact';
+import { useState, useEffect } from "react";
+import { LocalStorageService } from "@/services/localStorageService";
+import { useNotification } from "@/context/NotificationProvider";
+import { Contact } from "../types/contact";
 
 export const useContacts = () => {
   const currentUser = LocalStorageService.getCurrentUser();
@@ -16,20 +16,29 @@ export const useContacts = () => {
     const updatedContacts = [...contacts, contact];
     LocalStorageService.saveContacts(currentUser?.email, updatedContacts);
     setContacts(updatedContacts);
-    notify('success', 'Contato adicionado', 'O contato foi adicionado com sucesso');
+    notify(
+      "success",
+      "Contato adicionado",
+      "O contato foi adicionado com sucesso"
+    );
   };
 
   const updateContact = (updatedContact: Contact) => {
-    const updatedContacts = contacts.map(contact => 
+    const updatedContacts = contacts.map((contact) =>
       contact.cpf === updatedContact.cpf ? updatedContact : contact
     );
     LocalStorageService.saveContacts(currentUser?.email, updatedContacts);
     setContacts(updatedContacts);
-    notify('success', 'Contato atualizado', 'O contato foi atualizado com sucesso');
+
+    notify(
+      "success",
+      "Contato atualizado",
+      "O contato foi atualizado com sucesso"
+    );
   };
 
   const deleteContact = (cpf: string) => {
-    const updatedContacts = contacts.filter(contact => contact.cpf !== cpf);
+    const updatedContacts = contacts.filter((contact) => contact.cpf !== cpf);
     LocalStorageService.saveContacts(currentUser?.email, updatedContacts);
     setContacts(updatedContacts);
   };
@@ -39,6 +48,6 @@ export const useContacts = () => {
     addContact,
     updateContact,
     deleteContact,
-    currentUser
+    currentUser,
   };
 };

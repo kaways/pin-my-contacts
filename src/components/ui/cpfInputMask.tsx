@@ -4,9 +4,10 @@ import { Input } from "@/components/ui/input"
 interface CpfInputProps {
     value: string;
     onChange: (value: string) => void;
+    disabled: boolean,
 }
 
-const CpfInputMask: React.FC<CpfInputProps> = ({ value, onChange }) => {
+const CpfInputMask: React.FC<CpfInputProps> = ({ value, onChange, disabled }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let cpf = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
         cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o primeiro ponto
@@ -19,6 +20,7 @@ const CpfInputMask: React.FC<CpfInputProps> = ({ value, onChange }) => {
         <Input
             type="text"
             value={value}
+            disabled={disabled}
             onChange={handleChange}
             placeholder="Digite seu CPF"
             maxLength={14}

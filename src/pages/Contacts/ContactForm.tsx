@@ -1,27 +1,26 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactFormSchema, ContactFormValues } from '@/types/contact';
 import { useCep } from '@/hooks/useCep';
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useContacts } from '@/hooks/useContacts';
 import { Button } from '@/components/ui/button';
 import CpfInputMask from '@/components/ui/cpfInputMask';
 
 interface ContactFormProps {
     onSubmit: (values: ContactFormValues) => void;
-    defaultValues?: ContactFormValues;
+    defaultValues?: ContactFormValues | null;
     isSubmitting?: boolean;
     isEdit?: boolean;
-    resetForm?: boolean;
+    closeOnEditDialog: () => void;
 }
 
 export const ContactForm = ({
     onSubmit,
     defaultValues,
-    isSubmitting = false,
     isEdit = false,
-    resetForm = false
+    closeOnEditDialog,
 }: ContactFormProps) => {
     const form = useForm<ContactFormValues>({
         resolver: zodResolver(contactFormSchema),
@@ -40,17 +39,25 @@ export const ContactForm = ({
         }
     });
 
-    useEffect(() => {
-        if (resetForm && !isEdit) {
-            form.reset();
-        }
-    }, [resetForm, isEdit, form]);
-
     const { handleCepChange } = useCep(form.setValue, form.setError);
+
+    const {
+        updateContact,
+    } = useContacts();
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (isEdit && defaultValues) {
+            updateContact(form.getValues());
+            closeOnEditDialog();
+        } else
+            form.handleSubmit(onSubmit)();
+    };
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-4 py-6">
 
 
@@ -82,7 +89,9 @@ export const ContactForm = ({
                                     <FormItem>
                                         <FormLabel>CPF</FormLabel>
                                         <FormControl>
-                                            <CpfInputMask {...field} />
+                                            <CpfInputMask
+                                                disabled={isEdit}
+                                                {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -230,11 +239,11 @@ export const ContactForm = ({
                 </div>
 
                 <div className='flex justify-end'>
-                    <Button type="submit" disabled={isSubmitting}  >
+                    <Button type="submit"  >
                         {isEdit ? 'Atualizar' : 'Salvar'}
                     </Button>
                 </div>
             </form>
-        </Form>
+        </Form >
     );
 };

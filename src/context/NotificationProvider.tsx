@@ -11,7 +11,7 @@ export const useNotification = () => {
         type: NotificationType,
         title: string,
         description?: string,
-        options?: any
+        options?: []
     ) => {
         switch (type) {
             case 'success':

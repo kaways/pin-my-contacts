@@ -1,9 +1,13 @@
 import { createContext } from "react";
+interface UserInfo {
+    email: string;
+    password: string;
+}
 
 interface AuthContextType {
     isAuthenticated: boolean;
-    login: (user: object) => void;
-    register: (user: object) => void;
+    login: (user: UserInfo) => void;
+    register: (user: UserInfo) => void;
     logout: () => void;
 }
 

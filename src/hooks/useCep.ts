@@ -19,6 +19,7 @@ export const useCep = (
       setValue("estado", data.uf);
       setValue("complemento", data.complemento || "");
     } catch (err) {
+      console.log(err);
       setError("cep", { message: "Erro ao consultar CEP" });
     }
   };

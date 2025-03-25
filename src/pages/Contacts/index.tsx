@@ -10,6 +10,7 @@ import { ContactMap } from './ContactMap';
 import { UserActionsDropdown } from './UserActionsDropdown';
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { useNotification } from "@/context/NotificationProvider";
 import { Plus } from 'lucide-react';
 import { Contact } from '@/types/contact';
 import { LocalStorageService } from "@/services/localStorageService";
@@ -31,8 +32,9 @@ export const ContactsPage = () => {
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-    const [shouldResetForm, setShouldResetForm] = useState(false);
-    const [currentContact, setCurrentContact] = useState<Contact | null>(null);
+    const { notify } = useNotification();
+    type ContactState = Contact | null;
+    const [currentContact, setCurrentContact] = useState<ContactState>(null);
     const [mapCenter, setMapCenter] = useState({
         lat: -25.4284,
         lng: -49.2733
@@ -59,6 +61,12 @@ export const ContactsPage = () => {
             if (isEditMode) {
                 updateContact(contactWithLocation);
             } else {
+                const emailExists = contacts.some((u: { cpf: string }) => u.cpf === values.cpf);
+                if (emailExists) {
+                    notify('error', 'Erro', 'Este CPF já está cadastrado');
+                    return;
+                }
+
                 addContact(contactWithLocation);
             }
 
@@ -68,10 +76,13 @@ export const ContactsPage = () => {
         }
     };
 
+    const closeEditDialog = () => {
+        setIsDialogOpen(false);
+    };
+
     const openAddDialog = () => {
         setIsEditMode(false);
         setCurrentContact(null);
-        setShouldResetForm(!shouldResetForm);
         setIsDialogOpen(true);
     };
 
@@ -124,15 +135,15 @@ export const ContactsPage = () => {
                                 Adicionar
                             </Button>
                         </DialogTrigger>
-                        <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="w-2xl p-6 py-6 pl-12 pr-12">
+                        <DialogContent key={isEditMode ? 'edit' : 'add'} className="w-2xl p-6 py-6 pl-12 pr-12">
                             <DialogHeader>
-                                <DialogTitle>Adicionar contato</DialogTitle>
+                                <DialogTitle>{isEditMode ? 'Atualizar' : 'Adicionar'} contato</DialogTitle>
                             </DialogHeader>
                             <ContactForm
                                 onSubmit={handleSubmitContact}
                                 defaultValues={currentContact}
                                 isEdit={isEditMode}
-                                resetForm={shouldResetForm}
+                                closeOnEditDialog={closeEditDialog}
                             />
                         </DialogContent>
                     </Dialog>

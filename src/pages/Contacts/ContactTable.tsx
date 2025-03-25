@@ -1,4 +1,4 @@
-import { Contact } from '@/types/contact';
+import { Contact, ContactFormValues } from '@/types/contact';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 interface ContactTableProps {
     contacts: Contact[];
-    onEdit: (contact: Contact) => void;
+    onEdit: (contact: ContactFormValues) => void;
     onDelete: (cpf: string) => void;
     onRowClick: (lat: number, lng: number) => void;
     onSort: () => void;
