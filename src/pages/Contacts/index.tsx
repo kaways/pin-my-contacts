@@ -15,7 +15,7 @@ import { Plus } from 'lucide-react';
 import { Contact } from '@/types/contact';
 import { LocalStorageService } from "@/services/localStorageService";
 
-const API_KEY = "AIzaSyC-E5Dgt_ihYpZQulR53HehuJUzHrpSmDk";
+const API_KEY = "";
 
 export const ContactsPage = () => {
     const navigate = useNavigate();
