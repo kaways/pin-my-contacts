@@ -1,0 +1,50 @@
+name: Build, Test, and Deploy React App
+
+on:
+  push:
+    branches: [ "main" ]  # Dispara o pipeline ao fazer push na branch main
+  pull_request:
+    branches: [ "main" ]  # Opcional: roda testes em PRs
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Versão do Node.js
+
+      - name: Install dependencies
+        run: npm ci  # Instala exatamente as versões do lockfile
+
+      - name: Run tests
+        run: npm test -- --watchAll=false  # Executa testes (Jest)
+
+      - name: Build production
+        run: npm run build  # Cria a pasta /dist ou /build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-build
+          path: build/  # Assume que o build gera uma pasta "build"
+
+  deploy:
+    needs: build-and-test  # Só roda após build-and-test passar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: react-build
+
+      # Exemplo 1: Deploy no GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build  # Pasta do build do React
